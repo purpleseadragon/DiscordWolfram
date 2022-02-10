@@ -1,0 +1,1 @@
+Project for calling Wolfram Alpha solve functions using a discord bot
