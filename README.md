@@ -1,1 +1,1 @@
-Project for calling Wolfram Alpha solve functions using a discord bot
+Project for calling Wolfram Alpha solve functions using a discord bot as well as other miscellaneous things.
