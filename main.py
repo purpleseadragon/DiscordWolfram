@@ -2,13 +2,14 @@ import discord
 import os
 import random
 
-from wolfram_scraper import *
+from wolfram_scraper import result_from_WolframAlpha
 
 client = discord.Client()
 
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+
 
 @client.event
 async def on_message(message):
@@ -22,14 +23,24 @@ async def on_message(message):
 
     elif message.content.startswith('$wolf '):
         rest_of_message = message.content[6:]
-        await message.channel.send(rest_of_message)
+        try:
+            await message.channel.send(result_from_WolframAlpha(rest_of_message))
+        except StopIteration:
+            await message.channel.send('That was not a valid query')
+
+    elif message.content.startswith('$help'):
+        await message.channel.send('The bot currently recognises the following commands: \n \
+    **$meme** will generate a random meme \n \
+    **$wolf** followed by a query will return the answer given by wolfram alpha \n \
+    **$hello** will cause the bot to reply with a greeting \n \
+    **$help** will print this message.')
+
 
     elif message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+
 
 with open('token.txt') as token:
     TOKEN = token.readlines()[0]
 
 client.run(TOKEN)
-
-print('hellow word')
