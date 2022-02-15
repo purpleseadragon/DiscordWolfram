@@ -11,7 +11,6 @@ def result_from_WolframAlpha(question):
     res = client.query(question)
     return next(res.results).text
 
-
 if __name__ == '__main__':
     # for testing
     print(result_from_WolframAlpha('derivative x^4 / 3'))
