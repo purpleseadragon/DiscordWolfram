@@ -32,6 +32,11 @@ async def on_message(message):
         except StopIteration:
             await message.channel.send('That was not a valid query')
 
+    elif message.content.startswith('$laplace'):
+        await message.channel.send(file=discord.File(f'D:\god_folder\laplace\laplace_table.png'))
+
+    elif message.content.startswith('$laplack'):
+        await message.channel.send(file=discord.File(f'D:\god_folder\laplace\laplace_table2.png'))
 
     elif message.content.startswith('$help'):
         await message.channel.send('The bot currently recognises the following commands: \n \
@@ -39,7 +44,8 @@ async def on_message(message):
     **$wolf** followed by a query will return the answer given by wolfram alpha \n \
     **$hello** will cause the bot to reply with a greeting \n \
     **$leadpipe** will post a god meme \n \
-    **$help** will print this message.')
+    **$help** will print this message.\n \
+    **$laplace and **$laplack** will give laplace transforms')
 
 
     elif message.content.startswith('$hello'):
