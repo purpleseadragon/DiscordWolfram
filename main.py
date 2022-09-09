@@ -6,6 +6,7 @@ from wolfram_scraper import result_from_WolframAlpha
 
 client = discord.Client()
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -13,6 +14,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    """Function for text commands that require responses"""
+    global help
     if message.author == client.user:
         return
 
@@ -43,13 +46,20 @@ async def on_message(message):
     **$meme** will generate a random meme \n \
     **$wolf** followed by a query will return the answer given by wolfram alpha \n \
     **$hello** will cause the bot to reply with a greeting \n \
-    **$leadpipe** will post a god meme \n \
+    **$leadpipe** will post a meme \n \
     **$help** will print this message.\n \
-    **$laplace and **$laplack** will give laplace transforms')
-
+    **$laplace** and **$laplack** will give laplace transforms.\n\
+     **$free** does something')
 
     elif message.content.startswith('$hello'):
         await message.channel.send('Hello!')
+
+    elif message.content.startswith('$free'):
+        embed = discord.Embed(title="**Free Things**")
+        embed.description = "[Click on this for free movies, trust me not sus](https://hdtoday.tv/home)" 
+        await message.channel.send(embed=embed)
+    elif message.content.startswith('@'):
+        await message.add_reaction('🍤')
 
 
 with open('token.txt') as token:
