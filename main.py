@@ -49,7 +49,8 @@ async def on_message(message):
     **$leadpipe** will post a meme \n \
     **$help** will print this message.\n \
     **$laplace** and **$laplack** will give laplace transforms.\n\
-     **$free** does something')
+     **$free** does something\n \
+    **$oscarpack** (RIP Bozo)')
 
     elif message.content.startswith('$hello'):
         await message.channel.send('Hello!')
@@ -60,6 +61,10 @@ async def on_message(message):
         await message.channel.send(embed=embed)
     elif message.content.startswith('@'):
         await message.add_reaction('🍤')
+
+    elif message.content.startswith("$oscarpack"):
+        await message.channel.send(file=discord.File(f'D:\god_folder\laplace\oscar1.jpg'))
+        await message.channel.send(file=discord.File(f'D:\god_folder\laplace\oscar2.png'))
 
 
 with open('token.txt') as token:
