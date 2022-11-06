@@ -1,6 +1,7 @@
 import discord
 import os
 import random
+from math import ceil
 
 from wolfram_scraper import result_from_WolframAlpha
 
@@ -50,7 +51,8 @@ async def on_message(message):
     **$help** will print this message.\n \
     **$laplace** and **$laplack** will give laplace transforms.\n\
      **$free** does something\n \
-    **$oscarpack** (RIP Bozo)')
+    **$oscarpack** (RIP Bozo)\n \
+    **$teams** to choose teams')
 
     elif message.content.startswith('$hello'):
         await message.channel.send('Hello!')
@@ -66,6 +68,16 @@ async def on_message(message):
         await message.channel.send(file=discord.File(f'D:\god_folder\laplace\oscar1.jpg'))
         await message.channel.send(file=discord.File(f'D:\god_folder\laplace\oscar2.png'))
 
+    elif message.content.startswith("$teams"):
+        text = message.content[7:]
+        texter = text.split(", ")
+        if len(texter) == 1:
+            texter = text.split(" ")
+        len_text = len(texter)
+        x = random.sample(texter, k = ceil(len_text/2))
+        await message.channel.send(x)
+
+        
 
 with open('token.txt') as token:
     TOKEN = token.readlines()[0]
