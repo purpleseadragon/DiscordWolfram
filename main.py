@@ -2,10 +2,14 @@ import discord
 import os
 import random
 from math import ceil
+from numpy import mean
 
 from wolfram_scraper import result_from_WolframAlpha
+from update_csv import team_elos, update_elos, print_leaderboard
+from elo import elo_updt
 
 client = discord.Client()
+
 
 
 @client.event
@@ -16,7 +20,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     """Function for text commands that require responses"""
-    global help
+    global help, team1, team2, team1_av, team2_av, team1_elos, team2_elos
     if message.author == client.user:
         return
 
@@ -77,7 +81,33 @@ async def on_message(message):
         x = random.sample(texter, k = ceil(len_text/2))
         await message.channel.send(x)
 
-        
+    elif message.content.startswith("$game"):
+        text = message.content[6:]
+        text = text.split(", ")
+        team1 = text[0].split(" ")
+        team2 = text[1].split(" ")
+        team1_elos, team2_elos = team_elos(team1, team2)
+        team1_av, team2_av = mean(team1_elos), mean(team2_elos)
+        await message.channel.send(f"Write $win 0 if team 0 {team1} wins or write $win 1 if team 1 {team2} wins")
+
+    elif message.content.startswith("$win"):
+        text = message.content[5:]
+        try:
+            if text == "0":
+                print(elo_updt(team1_av, team2_av, 0))
+                delta_1, delta_2 = elo_updt(team1_av, team2_av, 0)
+                update_elos(team1, team2, delta_1, delta_2)
+            else:
+                delta_1, delta_2 = elo_updt(team1_av, team2_av, 1)
+                update_elos(team2, team1, delta_2, delta_1)
+        except:
+            print("there isnt a game going on")
+            await message.channel.send("there isnt a game going on")
+        team1_av, team2_av = False, False
+
+    elif message.content.startswith("$elos"):
+        await message.channel.send(print_leaderboard())
+
 
 with open('token.txt') as token:
     TOKEN = token.readlines()[0]
